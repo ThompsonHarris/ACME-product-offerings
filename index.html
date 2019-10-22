@@ -47,14 +47,42 @@
             const companies = values[0]
             const products = values [1]
             const offerings = values[2]
-            func(products)
+            console.log(values)
+            func(products,offerings,companies)
         })
 
         const container = document.getElementById('container');
+       
 
-        const func = (data) => {
-            data.forEach(({name,description,suggestedPrice})=>{
-            let product = `<div class="box"> ${name},${description},${suggestedPrice}</div>`
+        const func = (data,data2,data3) => {
+            data.forEach(({id,name,description,suggestedPrice})=>{
+
+                const offers = data2.filter(({productId})=> productId === id)
+                
+                let list = ''
+
+                offers.forEach(({price,companyId})=>{
+                    let company = data3.filter(({id})=>companyId===id)
+                    
+                    console.log(company)
+                    let name = company[0].name
+
+                    let item = `<li>Offered by:${name} ${price}</li>`
+                    list += item
+                })
+                console.log(list)
+                
+            
+            
+            
+            
+            let product = `<div class="box"> 
+            <a href="/#${id}"><div class="productName">${name}</div></a>
+            <div class="description">${description}</div>
+            <div class="productPrice">${suggestedPrice}</div>
+            <div class="productid">${id}</div>
+            <div class="offering"><ul>${list}</ul></div>
+            </div>`
             container.innerHTML += product;
         })
     }
